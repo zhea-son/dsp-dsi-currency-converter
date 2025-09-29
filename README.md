@@ -22,8 +22,8 @@ The **Currency Converter** is a Python-based application that will perform curre
 
 1. Clone the repository:
    ```
-   git clone https://github.com/zhea-son/web-news-aggregator.git
-   cd web-news-aggregator
+   git clone https://github.com/zhea-son/dsp-dsi-currency-converter
+   cd dsp-dsi-currency-converter
    ```
 
 2. Create and activate a virtual environment (optional but recommended):
@@ -49,11 +49,6 @@ This will start the web app locally and open it in your default browser.
 ## Dependencies
 
 - pandas
-- plotly
-- seaborn
-- wordcloud
-- textblob
-- nltk
 - matplotlib
 - dateutil
 - streamlit

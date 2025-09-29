@@ -15,13 +15,22 @@ def main():
     to_currency = st.selectbox("To Currency", currency_options, index=1 )
     
     if st.button("Get Latest Rate"):
-        currency = Currency(from_currency, to_currency, user_amount)
-        st.header("Latest Conversion Rate")
-        st.markdown(currency.return_format_result())
+        tab1, tab2 = st.tabs(["Latest Rate", "Rate Trends"])
+
+        with tab1:
+            currency = Currency(from_currency, to_currency, user_amount)
+            st.header("Latest Conversion Rate")
+            st.markdown(currency.return_format_result())
+
+        with tab2:
+            st.header("Trend over last 3 years")
+            st.pyplot(frankfurter.get_last_years_trend(from_currency, to_currency))
+        
     
-    user_date = st.date_input("Select a date",value="today", format="YYYY/MM/DD" )
+    user_date = st.date_input( "Select a date",value="today", format="YYYY/MM/DD" )
     
     if st.button("Conversion Rate"):
+
         currency = Currency(from_currency, to_currency, user_amount, user_date)
         st.header("Conversion Rate")
         st.markdown(currency.return_format_result())
