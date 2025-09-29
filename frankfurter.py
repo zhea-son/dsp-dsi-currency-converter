@@ -1,37 +1,29 @@
 import requests 
 import pandas as pd
 import matplotlib.pyplot as plt
-from datetime import date
-from dateutil.relativedelta import relativedelta
+from api import cc_get_all_currencies, cc_get_historical_trends
 
 class Frankfurter():
 
-    def __init__(self):
+    def __init__( self) :
         pass
 
-    def get_available_currency(self):
-        url = "https://api.frankfurter.dev/v1/currencies"
-
-        currencies = requests.get(url)
-        dict_currencies = currencies.json()
-        list_currencies = list(dict_currencies.keys())
+    def get_available_currency( self ):
+        dict_currencies = cc_get_all_currencies()
+        list_currencies = list( dict_currencies.keys() )
 
         return list_currencies
     
-    def get_last_years_trend(self, from_currency, to_currency):
-        today_date = date.today()
-        three_years_ago = today_date - relativedelta(years=3)
-        url = f"https://api.frankfurter.dev/v1/{three_years_ago}..?base={from_currency}&symbols={to_currency}"
+    def get_last_years_trend( self, from_currency, to_currency ):
+        
+        rates_json = cc_get_historical_trends( from_currency, to_currency )
 
-        rates = requests.get(url)
-        rates_json = rates.json()
-
-        df = pd.DataFrame.from_dict(rates_json["rates"], orient="index")
+        df = pd.DataFrame.from_dict( rates_json["rates"], orient="index" )
 
         df = df.reset_index()
         df.columns = ["date", "rate"]
 
-        df["date"] = pd.to_datetime(df["date"])
+        df["date"] = pd.to_datetime( df["date"] )
 
         plt.figure(figsize=(8,4))
         plt.plot(df["date"], df["rate"], linestyle="-", color="blue")
